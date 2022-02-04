@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const HEADER = "Not Wordle, just my Firefox tabs:";
-const FOOTER = "https://bit.ly/3L2Wm46";
+const FOOTER = "https://mzl.la/3sfOF1R";
 
 browser.browserAction.onClicked.addListener(async () => {
   let tabs = await browser.tabs.query({ currentWindow: true });
