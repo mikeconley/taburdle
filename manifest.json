@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Taburdle",
-  "version": "0.2",
+  "version": "0.3",
   "description": "A WebExtension that copies a string representation of your tabs to your clipboard.",
   "background": {
     "scripts": ["background.js"]
