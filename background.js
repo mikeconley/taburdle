@@ -4,18 +4,34 @@
 
 const HEADER = "Not Wordle, just my @firefox tabs:";
 const FOOTER = "https://mzl.la/3sfOF1R";
+const MAX_CHARS = 280; // Twitter default
+
+// This seems to be how many characters Twitter budgets for a
+// link, like the Taburdle link in the footer.
+const FOOTER_CHARACTER_BUDGET = 6;
+
+// The Unicode characters for the tab states are actually two
+// characters wide, so we want half of the TAB_CHARS, minus another
+const TAB_CHARS = Math.floor((MAX_CHARS - HEADER.length - FOOTER_CHARACTER_BUDGET) / 2) - 1;
 
 browser.browserAction.onClicked.addListener(async () => {
   let tabs = await browser.tabs.query({ currentWindow: true });
-  let grid = tabs
-    .map(tab => tab.pinned ? `🟪` : tab.discarded ? `🟨` : `🟩`)
-    .reduce((acc, curr) => {
-      if (acc.at(-1).length == 10) {
-        acc.push("");
-      }
-      acc[acc.length - 1] += curr;
-      return acc;
-    }, [""]).join("\n");
+  let tabStates = [];
+  for (let i = 0; i < tabs.length && tabStates.length < TAB_CHARS; ++i) {
+    if (i > 0 && i % 5 == 0) {
+      tabStates.push("\n");
+    }
+
+    let tab = tabs[i];
+    tabStates.push(tab.pinned ? `🟪` : tab.discarded ? `🟨` : `🟩`);
+  }
+
+  if (tabStates.length == TAB_CHARS) {
+    tabStates.push("…");
+  }
+
+  let grid = tabStates.join("");
+
   let finalString = `${HEADER}\n${grid}\n${FOOTER}`;
   await navigator.clipboard.writeText(finalString);
   browser.notifications.create("taburdle-notification", {
