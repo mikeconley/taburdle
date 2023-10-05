@@ -1,6 +1,6 @@
 # Taburdle #
 
-Your Firefox tabs copied to your clipboard in an easily shareable form. Limited to 280 characters, useful for tweeting.
+Your Firefox tabs copied to your clipboard in an easily shareable form. Limited to 280 characters, useful for tweeting. Hold <kbd>Shift</kbd> to copy without the 280-character limit.
 
 ## documentation ##
 
