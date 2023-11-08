@@ -15,7 +15,8 @@ const FOOTER_CHARACTER_BUDGET = 6;
 const TAB_CHARS = Math.floor((MAX_CHARS - HEADER.length - FOOTER_CHARACTER_BUDGET) / 2) - 1;
 
 browser.browserAction.onClicked.addListener(async (_tab, onClickData) => {
-  let tabs = await browser.tabs.query({ currentWindow: true });
+  let windows = await browser.windows.getAll({ populate: true, windowTypes: ["normal"]});
+  let tabs = windows.map(window => window.tabs).flat();
   let charLimit = onClickData.modifiers.includes("Shift") ? tabs.length + 1 : TAB_CHARS;
   let tabStates = [];
   for (let i = 0; i < tabs.length && tabStates.length < charLimit; ++i) {
